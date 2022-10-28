@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@material/card": "^14.0.0",
     "graphql-request": "^5.0.0",
     "next": "13.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "sass": "^1.55.0"
   },
   "devDependencies": {
     "@types/node": "18.11.7",

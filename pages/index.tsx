@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import getNewsArticles from '../utils/getNewsArticles'
+import styles from '../styles/news.module.css'
 
 interface IProps {}
 
@@ -33,8 +34,8 @@ class App extends Component<IProps, IState> {
 
   newsArticles() {
     return this.state.newsArticles.map((newsArticle, index) => (
-      <div key={index}>
-        <h2>{newsArticle.title}</h2>
+      <div key={index} className={styles.news__card}>
+        <h2 className={styles.news__card__head}>{newsArticle.title}</h2>
         <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
         <div>
           {newsArticle.description} <a href={newsArticle.url}>Read more</a>
@@ -47,7 +48,7 @@ class App extends Component<IProps, IState> {
     return (
       <div className='App'>
         <h1>Fashion News</h1>
-        <div>{this.newsArticles()}</div>
+        <div className={styles.news__wrapper}>{this.newsArticles()}</div>
       </div>
     )
   }
