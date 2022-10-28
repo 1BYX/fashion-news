@@ -1,16 +1,27 @@
 import React, { Component } from 'react'
 import getNewsArticles from '../utils/getNewsArticles'
 
+interface IProps {}
+
+interface IState {
+  newsArticles: Array<{
+    title: string
+    url: string
+    imageUrl: string
+    description: string
+  }>
+}
+
 const DEFAULT_IMAGE =
   'https://fashionunited.info/global-assets/img/default/fu-default_1200x630_black-favicon.jpg'
 
-class App extends Component {
-  constructor(props) {
+class App extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props)
     this.state = { newsArticles: [] }
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     const variables = {
       keywords: ['hunkemoller'],
     }
