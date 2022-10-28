@@ -1,3 +1,12 @@
+.App {
+  padding: 50px;
+}
+
+.App__title {
+  margin: 0px;
+  padding-bottom: 50px;
+}
+
 .news__wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -15,12 +24,22 @@
   background-color: white;
 }
 
-.news__card img {
-  width: 344px;
+.news__card__image {
+  max-width: 344px;
+  min-width: 240px;
+  height: 213px;
+  display: grid;
+  align-items: center;
+}
+
+.news__card__image img {
+  width: 100%;
+  border-radius: 4px 4px 0px 0px;
 }
 
 .news__card__head {
   padding: 16px 16px 0px 16px;
+  margin: 0px;
 }
 
 .news__card__head {
@@ -41,5 +60,9 @@
   align-items: center;
   box-sizing: border-box;
   min-height: 52px;
-  padding: 8px;
+  padding: 16px;
+}
+
+.news__card__actions {
+  text-decoration: underline;
 }

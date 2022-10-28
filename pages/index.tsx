@@ -35,9 +35,11 @@ class App extends Component<IProps, IState> {
   newsArticles() {
     return this.state.newsArticles.map((newsArticle, index) => (
       <div key={index} className={styles.news__card}>
+        <div className={styles.news__card__image}>
+          <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
+        </div>
         <h2 className={styles.news__card__head}>{newsArticle.title}</h2>
-        <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
-        <div>
+        <div className={styles.news__card__actions}>
           {newsArticle.description} <a href={newsArticle.url}>Read more</a>
         </div>
       </div>
@@ -46,8 +48,8 @@ class App extends Component<IProps, IState> {
 
   render() {
     return (
-      <div className='App'>
-        <h1>Fashion News</h1>
+      <div className={styles.App}>
+        <h1 className={styles.App__title}>Fashion News</h1>
         <div className={styles.news__wrapper}>{this.newsArticles()}</div>
       </div>
     )
