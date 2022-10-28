@@ -49,8 +49,10 @@ class App extends Component<IProps, IState> {
   render() {
     return (
       <div className={styles.App}>
-        <h1 className={styles.App__title}>Fashion News</h1>
-        <div className={styles.news__wrapper}>{this.newsArticles()}</div>
+        <div className={styles.hi}>
+          <h1 className={styles.App__title}>Fashion News</h1>
+          <div className={styles.news__wrapper}>{this.newsArticles()}</div>
+        </div>
       </div>
     )
   }
