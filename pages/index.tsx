@@ -40,11 +40,11 @@ class App extends Component<IProps, IState> {
     }
   }
 
-  async UNSAFE_componentWillMount() {
+  async componentDidMount() {
     const variables = {
       keywords: ['hunkemoller'],
     }
-    const result = await getNewsArticles(variables, 0)
+    const result = await getNewsArticles(variables)
     this.setState({
       newsArticles: result.fashionunitedNlNewsArticles,
     })
@@ -67,6 +67,19 @@ class App extends Component<IProps, IState> {
         isEnd: true,
       })
     }
+  }
+
+  async loadNew(_id: number) {
+    const variables = {
+      keywords: ['hunkemoller'],
+    }
+    const result = await getNewsArticles(variables, _id, 1)
+    this.setState({
+      newsArticles: [
+        ...this.state.newsArticles,
+        ...result.fashionunitedNlNewsArticles,
+      ],
+    })
   }
 
   setDialog(_id: number, _title: string, close?: boolean) {

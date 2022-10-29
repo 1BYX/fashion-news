@@ -12,15 +12,19 @@ description
 
 }
 `
-export default function getNewsArticles(variables = {}, _offset = 0) {
-  updateQuery(_offset)
+export default function getNewsArticles(
+  variables = {},
+  _offset = 0,
+  _limit = 12
+) {
+  updateQuery(_offset, _limit)
   return request(endpoint, query, variables)
 }
 
-function updateQuery(_offset: number) {
+function updateQuery(_offset: number, _limit: number) {
   query = `
     query NewsArticles($keywords: [String]) {
-    fashionunitedNlNewsArticles(keywords: $keywords, offset: ${_offset}, limit: 12) {
+    fashionunitedNlNewsArticles(keywords: $keywords, offset: ${_offset}, limit: ${_limit}) {
     title
     url
     imageUrl
