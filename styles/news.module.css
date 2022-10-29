@@ -21,8 +21,7 @@
 }
 
 .news__card {
-  max-width: 344px;
-  min-width: 240px;
+  width: 344px;
   height: 371px;
   box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
     0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
@@ -33,15 +32,15 @@
 .news__card__image {
   max-width: 344px;
   min-width: 240px;
-  height: 213px;
   display: grid;
   align-items: center;
-  object-fit: fill;
 }
 
 .news__card__image img {
   width: 100%;
+  height: 213px;
   border-radius: 4px 4px 0px 0px;
+  object-fit: cover;
 }
 
 .news__card__head {
@@ -73,6 +72,12 @@
 
 .news__card__actions {
   text-decoration: underline;
+}
+
+.news__loadMore {
+  display: grid;
+  justify-items: center;
+  padding: 50px 0px;
 }
 
 @media screen and (min-width: 768px) {

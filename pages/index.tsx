@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import getNewsArticles from '../utils/getNewsArticles'
 import styles from '../styles/news.module.css'
+import Button from '@mui/material/Button'
 
 interface IProps {}
 
@@ -74,7 +75,9 @@ class App extends Component<IProps, IState> {
           <h1 className={styles.App__title}>Fashion News</h1>
           <div className={styles.news__wrapper}>{this.newsArticles()}</div>
           <div className={styles.news__loadMore}>
-            <button onClick={this.loadMore}>load more</button>
+            <Button variant='contained' onClick={this.loadMore}>
+              load more
+            </Button>
           </div>
         </div>
       </div>
