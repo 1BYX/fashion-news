@@ -80,6 +80,11 @@
   padding: 50px 0px;
 }
 
+.news__dialog__description {
+  opacity: 0.6;
+  padding: 0px 16px 0px 16px;
+}
+
 @media screen and (min-width: 768px) {
   .news__wrapper {
     display: grid;

@@ -2,8 +2,13 @@ import React, { Component } from 'react'
 import getNewsArticles from '../utils/getNewsArticles'
 import styles from '../styles/news.module.css'
 import Button from '@mui/material/Button'
+import { Dialog } from '@mui/material'
+import Router from 'next/router'
+import { withRouter } from 'next/router'
 
-interface IProps {}
+interface IProps {
+  router: any
+}
 
 interface IState {
   newsArticles: Array<{
@@ -13,6 +18,11 @@ interface IState {
     description: string
   }>
   offset: number
+  isEnd: boolean
+  openDialog: {
+    id: number
+    title: string
+  }
 }
 
 const DEFAULT_IMAGE =
@@ -22,7 +32,12 @@ class App extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.loadMore = this.loadMore.bind(this)
-    this.state = { newsArticles: [], offset: 0 }
+    this.state = {
+      newsArticles: [],
+      offset: 0,
+      isEnd: false,
+      openDialog: { id: 0, title: '' },
+    }
   }
 
   async UNSAFE_componentWillMount() {
@@ -32,7 +47,6 @@ class App extends Component<IProps, IState> {
     const result = await getNewsArticles(variables, 0)
     this.setState({
       newsArticles: result.fashionunitedNlNewsArticles,
-      offset: 0,
     })
   }
 
@@ -48,23 +62,70 @@ class App extends Component<IProps, IState> {
       ],
       offset: this.state.offset + 12,
     })
+    if (result.fashionunitedNlNewsArticles.length == 0) {
+      this.setState({
+        isEnd: true,
+      })
+    }
   }
 
-  readMore() {
-    return <div></div>
+  setDialog(_id: number, _title: string, close?: boolean) {
+    this.setState({
+      openDialog: {
+        id: _id,
+        title: _title,
+      },
+    })
+
+    if (!close) {
+      Router.push(
+        {
+          query: { id: _id, title: _title },
+        },
+        undefined,
+        { shallow: true }
+      )
+    } else {
+      Router.push(
+        {
+          query: {},
+        },
+        undefined,
+        { shallow: true }
+      )
+    }
   }
 
   newsArticles() {
+    const { query } = this.props.router
+
     return this.state.newsArticles.map((newsArticle, index) => (
-      <div key={index} className={styles.news__card}>
-        <div className={styles.news__card__image}>
+      <>
+        <div
+          key={index}
+          className={styles.news__card}
+          onClick={() => this.setDialog(index, newsArticle.title)}>
+          <div className={styles.news__card__image}>
+            <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
+          </div>
+          <h2 className={styles.news__card__head}>{newsArticle.title}</h2>
+          <div className={styles.news__card__actions}>
+            <a href={newsArticle.url}>Read more</a>
+          </div>
+        </div>
+        <Dialog
+          open={index == query.id && newsArticle.title == query.title}
+          onClose={() => this.setDialog(0, '', true)}>
           <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
-        </div>
-        <h2 className={styles.news__card__head}>{newsArticle.title}</h2>
-        <div className={styles.news__card__actions}>
-          {newsArticle.description} <a href={newsArticle.url}>Read more</a>
-        </div>
-      </div>
+          <h2 className={styles.news__card__head}>{newsArticle.title}</h2>
+          <div className={styles.news__dialog__description}>
+            {newsArticle.description}
+          </div>
+          <div className={styles.news__card__actions}>
+            <a href={newsArticle.url}>Read more</a>
+          </div>
+        </Dialog>
+      </>
     ))
   }
 
@@ -74,14 +135,16 @@ class App extends Component<IProps, IState> {
         <div className={styles.App__inner}>
           <h1 className={styles.App__title}>Fashion News</h1>
           <div className={styles.news__wrapper}>{this.newsArticles()}</div>
-          <div className={styles.news__loadMore}>
-            <Button variant='contained' onClick={this.loadMore}>
-              load more
-            </Button>
-          </div>
+          {!this.state.isEnd && (
+            <div className={styles.news__loadMore}>
+              <Button variant='contained' onClick={this.loadMore}>
+                load more
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     )
   }
 }
-export default App
+export default withRouter(App)

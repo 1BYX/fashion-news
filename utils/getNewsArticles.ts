@@ -7,6 +7,7 @@ fashionunitedNlNewsArticles(keywords: $keywords, offset: 0, limit: 12) {
 title
 url
 imageUrl
+description
 }
 
 }
@@ -23,6 +24,7 @@ function updateQuery(_offset: number) {
     title
     url
     imageUrl
+    description
     }
     
     }
