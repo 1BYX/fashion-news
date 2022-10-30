@@ -74,15 +74,8 @@ class App extends Component<IProps, IState> {
   }
 
   //function for manipulating the dialog window, its state is tied to the query string
-  setDialog(_id: number, _title: string, close?: boolean) {
-    this.setState({
-      openDialog: {
-        id: _id,
-        title: _title,
-      },
-    })
-
-    if (!close) {
+  setDialog(_id: number, _title: string, open: boolean) {
+    if (open) {
       Router.push(
         {
           query: { id: _id, title: _title },
@@ -110,7 +103,7 @@ class App extends Component<IProps, IState> {
         <div
           key={index}
           className={styles.news__card}
-          onClick={() => this.setDialog(index, newsArticle.title)}>
+          onClick={() => this.setDialog(index, newsArticle.title, true)}>
           <div className={styles.news__card__image}>
             <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
           </div>
@@ -121,7 +114,7 @@ class App extends Component<IProps, IState> {
         </div>
         <Dialog
           open={index == query.id && newsArticle.title == query.title}
-          onClose={() => this.setDialog(0, '', true)}>
+          onClose={() => this.setDialog(0, '', false)}>
           <img src={newsArticle.imageUrl || DEFAULT_IMAGE} />
           <h2 className={styles.news__card__head}>{newsArticle.title}</h2>
           <div className={styles.news__dialog__description}>
