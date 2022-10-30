@@ -43,28 +43,33 @@ class App extends Component<IProps, IState> {
 
   //initial batch fetch
   async componentDidMount() {
-    const variables = {
-      keywords: ['hunkemoller'],
-    }
-    const result = await getNewsArticles(variables)
-    this.setState({
-      newsArticles: result.fashionunitedNlNewsArticles,
-    })
+    this.loadMore(true)
   }
 
   //load more function, run when the button is hit
-  async loadMore() {
+  async loadMore(initialPaint: boolean) {
     const variables = {
       keywords: ['hunkemoller'],
     }
-    const result = await getNewsArticles(variables, this.state.offset + 12)
-    this.setState({
-      newsArticles: [
-        ...this.state.newsArticles,
-        ...result.fashionunitedNlNewsArticles,
-      ],
-      offset: this.state.offset + 12,
-    })
+    let result
+    //in case the data is requested for the first paint, replace current array with the response one
+    if (initialPaint) {
+      result = await getNewsArticles(variables, this.state.offset)
+      this.setState({
+        newsArticles: result.fashionunitedNlNewsArticles,
+      })
+    } else {
+      result = await getNewsArticles(variables, this.state.offset + 12)
+      //in case the data is requested later, add the response array to the existing one
+      this.setState({
+        newsArticles: [
+          ...this.state.newsArticles,
+          ...result.fashionunitedNlNewsArticles,
+        ],
+        offset: this.state.offset + 12,
+      })
+      console.log(this.state.offset)
+    }
     //determines if there is more data in the response payload in order to hide the button if there's none
     if (result.fashionunitedNlNewsArticles.length == 0) {
       this.setState({
@@ -139,7 +144,7 @@ class App extends Component<IProps, IState> {
           <div className={styles.news__wrapper}>{this.newsArticles()}</div>
           {!this.state.isEnd && (
             <div className={styles.news__loadMore}>
-              <Button variant='contained' onClick={this.loadMore}>
+              <Button variant='contained' onClick={() => this.loadMore(false)}>
                 load more
               </Button>
             </div>
