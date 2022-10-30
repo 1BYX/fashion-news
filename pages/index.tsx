@@ -6,6 +6,7 @@ import { Dialog } from '@mui/material'
 import Router from 'next/router'
 import { withRouter } from 'next/router'
 
+//types for props & state
 interface IProps {
   router: any
 }
@@ -40,6 +41,7 @@ class App extends Component<IProps, IState> {
     }
   }
 
+  //initial batch fetch
   async componentDidMount() {
     const variables = {
       keywords: ['hunkemoller'],
@@ -50,6 +52,7 @@ class App extends Component<IProps, IState> {
     })
   }
 
+  //load more function, run when the button is hit
   async loadMore() {
     const variables = {
       keywords: ['hunkemoller'],
@@ -62,6 +65,7 @@ class App extends Component<IProps, IState> {
       ],
       offset: this.state.offset + 12,
     })
+    //determines if there is more data in the response payload in order to hide the button if there's none
     if (result.fashionunitedNlNewsArticles.length == 0) {
       this.setState({
         isEnd: true,
@@ -69,19 +73,7 @@ class App extends Component<IProps, IState> {
     }
   }
 
-  async loadNew(_id: number) {
-    const variables = {
-      keywords: ['hunkemoller'],
-    }
-    const result = await getNewsArticles(variables, _id, 1)
-    this.setState({
-      newsArticles: [
-        ...this.state.newsArticles,
-        ...result.fashionunitedNlNewsArticles,
-      ],
-    })
-  }
-
+  //function for manipulating the dialog window, its state is tied to the query string
   setDialog(_id: number, _title: string, close?: boolean) {
     this.setState({
       openDialog: {
@@ -109,6 +101,7 @@ class App extends Component<IProps, IState> {
     }
   }
 
+  //method for mapping and rendering news articles
   newsArticles() {
     const { query } = this.props.router
 
@@ -142,7 +135,10 @@ class App extends Component<IProps, IState> {
     ))
   }
 
+  //method for mapping and rendering the whole page
   render() {
+    const { query } = this.props.router
+
     return (
       <div className={styles.App}>
         <div className={styles.App__inner}>
